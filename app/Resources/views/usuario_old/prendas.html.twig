@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Prendas list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for prenda in prendas %}
+            <tr>
+                <td><a href="{{ path('prenda_show', { 'id': prenda.id }) }}">{{ prenda.id }}</a></td>
+                <td>{{ prenda.nombre }}</td>
+                <td>
+                    <ul>
+                        <a href="{{ path('prenda_edit', { 'id': prenda.id }) }}">delete</a>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('prenda_new') }}">Create a new prenda</a>
+        </li>
+    </ul>
+{% endblock %}
