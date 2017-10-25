@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Prenda;
+use AppBundle\Entity\Usuario;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
@@ -96,6 +97,35 @@ class PrendaController extends Controller
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
+    }
+
+    /**
+     * Displays a form to edit an existing prenda entity.
+     *
+     * @Route("/{id}/add", name="prenda_add")
+     * @Method({"GET", "POST"})
+     */
+    public function addAction(Request $request, Prenda $prenda)
+    {
+
+        $editForm = $this->createForm('AppBundle\Form\PrendaType', $prenda);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+
+            //$session = $this->container->get('session');
+            $idUser = $this->getUser()->getId();
+
+            $em = $this->getDoctrine()->getManager();
+            $us = $em->getRepository(Usuario::class)->find($idUser);
+            $us->getPrenda()->add($prenda);
+            $em->persist($us);
+            $em->flush();
+
+            return $this->redirectToRoute('prenda_index');
+        }
+
+        return $this->render('default/index.html.twig');
     }
 
     /**

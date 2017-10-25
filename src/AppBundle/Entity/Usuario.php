@@ -166,6 +166,24 @@ class Usuario implements UserInterface
         $this->image = $image;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getPrenda()
+    {
+        return $this->prenda;
+    }
+
+    /**
+     * @param mixed $prenda
+     */
+    public function setPrenda($prenda)
+    {
+        $this->prenda = $prenda;
+    }
+
+
+
     public function getSalt()
     {
         return null;

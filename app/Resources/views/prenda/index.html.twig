@@ -18,12 +18,9 @@
                 <td>{{ prenda.nombre }}</td>
                 <td>
                     <ul>
-                        <li>
-                            <a href="{{ path('prenda_show', { 'id': prenda.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('prenda_edit', { 'id': prenda.id }) }}">edit</a>
-                        </li>
+                        <a href="{{ path('prenda_show', { 'id': prenda.id }) }}">show</a>
+                        <a href="{{ path('prenda_edit', { 'id': prenda.id }) }}">edit</a>
+                        <a href="{{ path('prenda_add', { 'id': prenda.id }) }}">Add</a>
                     </ul>
                 </td>
             </tr>

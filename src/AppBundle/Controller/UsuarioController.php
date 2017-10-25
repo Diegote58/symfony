@@ -3,7 +3,6 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Usuario;
-use AppBundle\Form\UsuarioType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
@@ -26,8 +25,10 @@ class UsuarioController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $usuarios = $em->getRepository('AppBundle:Usuario')->findAll();
-        //dump($usuarios);
-       // $usuarios = $em->createQuery();
+
+        $usr= $this->get('security.context')->getToken()->getUser();
+        $usr->getUsername();
+        var_dump($usr);
         return $this->render('usuario/index.html.twig', array(
             'usuarios' => $usuarios,
         ));
@@ -41,26 +42,20 @@ class UsuarioController extends Controller
      */
     public function newAction(Request $request)
     {
-        $user = new Usuario();
-        $form = $this->createForm(UsuarioType::class, $user);
+        $usuario = new Usuario();
+        $form = $this->createForm('AppBundle\Form\UsuarioType', $usuario);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $encoder = $this->get('security.password_encoder');
-            $password = $encoder->encodePassword($user, $user->getPlainPassword());
-            $user->setPassword($password);
-            $user->setRole($user->getRole());
-
             $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
+            $em->persist($usuario);
             $em->flush();
 
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('usuario_show', array('id' => $usuario->getId()));
         }
 
         return $this->render('usuario/new.html.twig', array(
-            'usuario' => $user,
+            'usuario' => $usuario,
             'form' => $form->createView(),
         ));
     }
@@ -141,5 +136,4 @@ class UsuarioController extends Controller
             ->getForm()
         ;
     }
-
 }

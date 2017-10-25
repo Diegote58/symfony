@@ -1,15 +1,18 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <div></div>
     <h1>Usuarios list</h1>
-    {{ dump(usuarios) }}
-    <table class="table">
+
+    <table>
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Email</th>
                 <th>Name</th>
                 <th>Role</th>
+                <th>Password</th>
+                <th>Image</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -22,8 +25,12 @@
                 <td>{{ usuario.role }}</td>
                 <td>
                     <ul>
-                        <a href="{{ path('usuario_show', { 'id': usuario.id }) }}" class="btn btn-primary">show</a>
-                        <a href="{{ path('usuario_edit', { 'id': usuario.id }) }}" class="btn btn-default">edit</a>
+                        <li>
+                            <a href="{{ path('usuario_show', { 'id': usuario.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('usuario_edit', { 'id': usuario.id }) }}">edit</a>
+                        </li>
                     </ul>
                 </td>
             </tr>
@@ -32,6 +39,8 @@
     </table>
 
     <ul>
-        <a href="{{ path('usuario_new') }}" class="btn btn-large btn-success">Create a new usuario</a>
+        <li>
+            <a href="{{ path('usuario_new') }}">Create a new usuario</a>
+        </li>
     </ul>
 {% endblock %}
